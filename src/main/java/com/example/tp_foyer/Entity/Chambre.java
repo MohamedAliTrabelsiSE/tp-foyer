@@ -22,7 +22,7 @@ public class Chambre {
     Long idChambre;
     Long numberChambre;
     @Enumerated(EnumType.STRING)
-    TypeChambre typeC;
+    TypeChambre typeChambre;
     @OneToMany
     @JsonIgnore
     @ToString.Exclude

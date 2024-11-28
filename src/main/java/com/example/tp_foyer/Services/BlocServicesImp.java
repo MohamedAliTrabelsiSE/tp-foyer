@@ -3,18 +3,30 @@ package com.example.tp_foyer.Services;
 import com.example.tp_foyer.Entity.Bloc;
 import com.example.tp_foyer.Repositories.BlocRepositories;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @AllArgsConstructor
 public class BlocServicesImp implements IBlocServices{
+    private static final Logger log = LoggerFactory.getLogger(BlocServicesImp.class);
     BlocRepositories blocRepositories;
+    private List<Bloc> cachedBlocs = new ArrayList<>();
+
 
     @Override
     public List<Bloc> getAllBloc() {
         return blocRepositories.findAll();
+    }
+    @Scheduled(fixedDelay = 10000)
+    public void updateCachedBlocs() {
+        cachedBlocs = blocRepositories.findAll();
+        log.info("Cached blocs updated: {}", cachedBlocs);
     }
 
     @Override
